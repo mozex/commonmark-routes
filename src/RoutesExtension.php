@@ -24,7 +24,7 @@ class RoutesExtension implements ConfigurationAwareInterface, ExtensionInterface
     {
         $environment->addEventListener(
             eventClass: DocumentPreParsedEvent::class,
-            listener: [$this, 'onPreParsed']
+            listener: $this->onPreParsed(...)
         );
     }
 
