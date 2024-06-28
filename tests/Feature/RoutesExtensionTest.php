@@ -58,3 +58,19 @@ it('replaces route with named arguments', function () {
     expect(trim($converter->convert("[Home](route('home', absolute: false))")->getContent()))
         ->toBe('<p><a href="/">Home</a></p>');
 });
+
+it('replaces route with angle brackets', function () {
+    $converter = new CommonMarkConverter();
+    $converter->getEnvironment()->addExtension(new RoutesExtension());
+
+    expect(trim($converter->convert("[Home](<route('home')>)")->getContent()))
+        ->toBe('<p><a href="http://localhost">Home</a></p>');
+});
+
+it('replaces route with angle brackets and named arguments', function () {
+    $converter = new CommonMarkConverter();
+    $converter->getEnvironment()->addExtension(new RoutesExtension());
+
+    expect(trim($converter->convert("[Home](<route('home', absolute: false)>)")->getContent()))
+        ->toBe('<p><a href="/">Home</a></p>');
+});
