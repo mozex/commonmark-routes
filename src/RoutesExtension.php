@@ -11,7 +11,7 @@ use League\Config\ConfigurationInterface;
 
 class RoutesExtension implements ConfigurationAwareInterface, ExtensionInterface
 {
-    protected string $pattern = '/\[([^]]+)]\(route\((.*?)\)\)/s';
+    protected string $pattern = '/\[([^]]+)]\(<?route\((.*?)\)>?\)/s';
 
     protected ConfigurationInterface $configuration;
 

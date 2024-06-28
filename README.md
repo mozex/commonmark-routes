@@ -58,6 +58,9 @@ $converter->getEnvironment()->addExtension(new RoutesExtension());
 echo $converter->convert("[Home](route('home'))");
 // Output: <p><a href="https://domain.com">Home</a></p>
 
+echo $converter->convert("[Home](<route('home')>)");
+// Output: <p><a href="https://domain.com">Home</a></p>
+
 echo $converter->convert("[Home](route('home', absolute: false))");
 // Output: <p><a href="/">Home</a></p>
 
