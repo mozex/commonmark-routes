@@ -1,0 +1,96 @@
+{
+    "name": "mozex/commonmark-routes",
+    "description": "Laravel routes in Markdown: A CommonMark extension to seamlessly use Laravel route functions within your Markdown content.",
+    "keywords": [
+        "laravel",
+        "php",
+        "commmonmark",
+        "markdown",
+        "routes",
+        "commonmark-routes"
+    ],
+    "homepage": "https://github.com/mozex/commonmark-routes",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mozex",
+            "email": "mozex@alphorld.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "illuminate/contracts": "^10.0|^11.0",
+        "league/commonmark": "^2.4",
+        "spatie/laravel-package-tools": "^1.16"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.13.6",
+        "larastan/larastan": "^2.0.1",
+        "nunomaduro/collision": "^7.8|^8.1",
+        "orchestra/testbench": "^8.21|^9.0",
+        "pestphp/pest": "^2.34",
+        "pestphp/pest-plugin-laravel": "^2.0",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
+        "phpstan/phpstan-phpunit": "^1.0",
+        "spatie/laravel-ray": "^1.26"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mozex\\CommonMarkRoutes\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mozex\\CommonMarkRoutes\\Tests\\": "tests/",
+            "Workbench\\App\\": "workbench/app/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist",
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mozex\\CommonMarkRoutes\\CommonMarkRoutesServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@clear",
+            "@prepare",
+            "@composer run prepare"
+        ],
+        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "build": "@php vendor/bin/testbench workbench:build --ansi",
+        "start": [
+            "Composer\\Config::disableProcessTimeout",
+            "@composer run build",
+            "@php vendor/bin/testbench serve"
+        ],
+        "serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "@build",
+            "@php vendor/bin/testbench serve"
+        ],
+        "lint": "pint",
+        "test:lint": "pint --test",
+        "test:types": "phpstan analyse --ansi",
+        "test:unit": "pest --colors=always",
+        "test": [
+            "@test:lint",
+            "@test:types",
+            "@test:unit"
+        ]
+    }
+}
