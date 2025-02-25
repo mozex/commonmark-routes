@@ -3,6 +3,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/mozex/commonmark-routes.svg?style=flat-square)](https://packagist.org/packages/mozex/commonmark-routes)
 [![GitHub Tests Workflow Status](https://img.shields.io/github/actions/workflow/status/mozex/commonmark-routes/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/mozex/commonmark-routes/actions/workflows/tests.yml)
 [![License](https://img.shields.io/github/license/mozex/commonmark-routes.svg?style=flat-square)](https://packagist.org/packages/mozex/commonmark-routes)
+[![Total Downloads](https://img.shields.io/packagist/dt/mozex/commonmark-routes.svg?style=flat-square)](https://packagist.org/packages/mozex/commonmark-routes)
 
 An extension for [league/commonmark](https://github.com/thephpleague/commonmark) that allows you to use Laravel routes
 inside markdown, just as you would in your PHP code.
