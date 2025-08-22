@@ -11,7 +11,7 @@ use League\Config\ConfigurationInterface;
 
 class RoutesExtension implements ConfigurationAwareInterface, ExtensionInterface
 {
-    protected string $pattern = '/\[([^]]+)]\(<?route\((.*?)\)>?\)/s';
+    protected string $pattern = '/\[(.+)\]\(<?route\((.*?)\)>?\)/Us';
 
     protected ConfigurationInterface $configuration;
 
@@ -47,6 +47,12 @@ class RoutesExtension implements ConfigurationAwareInterface, ExtensionInterface
     private function replaceRouteWithUrl(array $matches): string
     {
         $linkText = $matches[1];
+
+        preg_match('/<?route\((.*?)\)>?/s', $linkText, $outputRouteMatch);
+        if(isset($outputRouteMatch[1])){
+            $linkText = $this->getUrl($outputRouteMatch[1]);
+        }
+
         $url = $this->getUrl($matches[2]);
 
         return "[$linkText]($url)";
