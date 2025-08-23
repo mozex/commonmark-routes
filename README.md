@@ -62,6 +62,12 @@ echo $converter->convert("[Home](route('home'))");
 echo $converter->convert("[Home](<route('home')>)");
 // Output: <p><a href="https://domain.com">Home</a></p>
 
+echo $converter->convert("[route('home')](route('home'))");
+// Output: <p><a href="https://domain.com">https://domain.com</a></p>
+
+echo $converter->convert("[<route('home')>](<route('home')>)");
+// Output: <p><a href="https://domain.com">https://domain.com</a></p>
+
 echo $converter->convert("[Home](route('home', absolute: false))");
 // Output: <p><a href="/">Home</a></p>
 
@@ -73,6 +79,9 @@ echo $converter->convert("[Features](route('home', ['id' => 'features']))");
 
 echo $converter->convert("[Features](route('home', ['id' => 'features'], false))");
 // Output: <p><a href="/?id=features">Features</a></p>
+
+echo $converter->convert("[route('home', ['id' => 'features'], false)](route('home', ['id' => 'features'], false))");
+// Output: <p><a href="/?id=features">/?id=features</a></p>
 ```
 
 For more information on CommonMark extensions and environments, refer to the [CommonMark documentation](https://commonmark.thephpleague.com/2.4/basic-usage/).
