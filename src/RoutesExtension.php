@@ -11,7 +11,7 @@ use League\Config\ConfigurationInterface;
 
 class RoutesExtension implements ConfigurationAwareInterface, ExtensionInterface
 {
-    protected string $pattern = '/\[(.+)]\(<?route\((.*?)\)>?\)/s';
+    protected string $pattern = '/\[(.+)]\(<?route\((.+)\)>?\)/Us';
 
     protected ConfigurationInterface $configuration;
 
@@ -48,7 +48,7 @@ class RoutesExtension implements ConfigurationAwareInterface, ExtensionInterface
     {
         $linkText = $matches[1];
 
-        preg_match('/<?route\((.*?)\)>?/s', $linkText, $outputRouteMatch);
+        preg_match('/<?route\((.+)\)>?/Us', $linkText, $outputRouteMatch);
 
         if (isset($outputRouteMatch[1])) {
             $linkText = $this->getUrl($outputRouteMatch[1]);

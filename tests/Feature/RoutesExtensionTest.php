@@ -35,6 +35,14 @@ it('will not replace normal absolute link and title route in links', function ()
         ->toBe('<p><a href="https://google.com">https://google.com</a></p>');
 });
 
+it('will not replace incorrect order links', function () {
+    $converter = new CommonMarkConverter;
+    $converter->getEnvironment()->addExtension(new RoutesExtension);
+
+    expect(trim($converter->convert("[route('about')](/about)")->getContent()))
+        ->toBe('<p><a href="/about">route(\'about\')</a></p>');
+});
+
 it('replaces route in links', function () {
     $converter = new CommonMarkConverter;
     $converter->getEnvironment()->addExtension(new RoutesExtension);
@@ -145,4 +153,36 @@ it('replaces route and title with angle brackets and named arguments', function 
 
     expect(trim($converter->convert("[<route('home', absolute: false)>](<route('home', absolute: false)>)")->getContent()))
         ->toBe('<p><a href="/">/</a></p>');
+});
+
+it('replaces route and title with angle brackets and named arguments and some text', function () {
+    $converter = new CommonMarkConverter;
+    $converter->getEnvironment()->addExtension(new RoutesExtension);
+
+    expect(trim($converter->convert("[<route('home', absolute: false)>](<route('home', absolute: false)>) some text")->getContent()))
+        ->toBe('<p><a href="/">/</a> some text</p>');
+});
+
+it('replaces route and title with angle brackets and named arguments multiple times and some text', function () {
+    $converter = new CommonMarkConverter;
+    $converter->getEnvironment()->addExtension(new RoutesExtension);
+
+    expect(trim($converter->convert("[<route('home', absolute: false)>](<route('home', absolute: false)>) some text [<route('home', absolute: false)>](<route('home', absolute: false)>)")->getContent()))
+        ->toBe('<p><a href="/">/</a> some text <a href="/">/</a></p>');
+});
+
+it('replaces route and title with and without angle brackets and with and without named arguments multiple times and some text', function () {
+    $converter = new CommonMarkConverter;
+    $converter->getEnvironment()->addExtension(new RoutesExtension);
+
+    expect(trim($converter->convert("[<route('home', absolute: false)>](<route('home', absolute: false)>) some text [<route('product', 1)>](route('product', 1))")->getContent()))
+        ->toBe('<p><a href="/">/</a> some text <a href="http://localhost/product/1">http://localhost/product/1</a></p>');
+});
+
+it('replaces route and title with and without angle brackets and with and without named arguments multiple times and some text with default links', function () {
+    $converter = new CommonMarkConverter;
+    $converter->getEnvironment()->addExtension(new RoutesExtension);
+
+    expect(trim($converter->convert("[<route('home', absolute: false)>](<route('home', absolute: false)>) some text [<route('product', 1)>](route('product', 1)) some other text [About](/about)")->getContent()))
+        ->toBe('<p><a href="/">/</a> some text <a href="http://localhost/product/1">http://localhost/product/1</a> some other text <a href="/about">About</a></p>');
 });
