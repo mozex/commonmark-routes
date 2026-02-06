@@ -2,6 +2,18 @@
 
 All notable changes to `commonmark-routes` will be documented in this file.
 
+## 1.4.0 - 2026-02-06
+
+### What's Changed
+
+* Improved regex and added more tests that were previously failing by @Bloafer in https://github.com/mozex/commonmark-routes/pull/7
+* Bump stefanzweifel/git-auto-commit-action from 6 to 7 by @dependabot[bot] in https://github.com/mozex/commonmark-routes/pull/8
+* Drop PHP 8.1 support and bump pest to ^2.36.1 by @mozex in https://github.com/mozex/commonmark-routes/pull/11
+* Bump actions/checkout from 5 to 6 by @dependabot[bot] in https://github.com/mozex/commonmark-routes/pull/9
+* Bump actions/cache from 4 to 5 by @dependabot[bot] in https://github.com/mozex/commonmark-routes/pull/10
+
+**Full Changelog**: https://github.com/mozex/commonmark-routes/compare/1.3.0...1.4.0
+
 ## 1.3.0 - 2025-08-23
 
 ### What's Changed
