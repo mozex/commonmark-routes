@@ -12,6 +12,16 @@ jobs:
         php: [ 8.2, 8.3, 8.4 ]
         laravel: [ 12.*, 11.*, 10.* ]
         dependency-version: [ prefer-lowest, prefer-stable ]
+        include:
+          - laravel: "10.*"
+            testbench: "^8.21"
+            carbon: "^2.72.6"
+          - laravel: "11.*"
+            testbench: "^9.2"
+            carbon: "^3.8.4"
+          - laravel: "12.*"
+            testbench: "10.*"
+            carbon: "^3.8.4"
 
     name: Tests P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.os }} - ${{ matrix.dependency-version }}
     steps:
@@ -36,6 +46,8 @@ jobs:
       run: >
         composer require
         "laravel/framework:${{ matrix.laravel }}"
+        "orchestra/testbench:${{ matrix.testbench }}"
+        "nesbot/carbon:${{ matrix.carbon }}"
         --no-interaction --no-update
 
     - name: Install Composer dependencies
