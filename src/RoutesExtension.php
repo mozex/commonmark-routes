@@ -61,6 +61,7 @@ class RoutesExtension implements ConfigurationAwareInterface, ExtensionInterface
 
     public function getUrl(string $routeString): string
     {
+        /** @phpstan-ignore return.type */
         return eval("return route($routeString);");
     }
 }
