@@ -2,6 +2,13 @@
 
 All notable changes to `commonmark-routes` will be documented in this file.
 
+## 1.4.1 - 2026-03-05
+
+* bump dependencies
+* drop laravel 10 support
+
+**Full Changelog**: https://github.com/mozex/commonmark-routes/compare/1.4.0...1.4.1
+
 ## 1.4.0 - 2026-02-06
 
 ### What's Changed
