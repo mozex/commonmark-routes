@@ -4,10 +4,16 @@
     "keywords": [
         "laravel",
         "php",
-        "commmonmark",
+        "commonmark",
         "markdown",
         "routes",
-        "commonmark-routes"
+        "static-pages",
+        "markdown-pages",
+        "documentation",
+        "content",
+        "extension",
+        "league-commonmark",
+        "cms"
     ],
     "homepage": "https://github.com/mozex/commonmark-routes",
     "license": "MIT",
