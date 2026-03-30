@@ -1,22 +1,21 @@
-# Use Laravel Routes inside markdown
+# Use Laravel URL Helpers inside Markdown
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/mozex/commonmark-routes.svg?style=flat-square)](https://packagist.org/packages/mozex/commonmark-routes)
 [![GitHub Tests Workflow Status](https://img.shields.io/github/actions/workflow/status/mozex/commonmark-routes/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/mozex/commonmark-routes/actions/workflows/tests.yml)
 [![License](https://img.shields.io/github/license/mozex/commonmark-routes.svg?style=flat-square)](https://packagist.org/packages/mozex/commonmark-routes)
 [![Total Downloads](https://img.shields.io/packagist/dt/mozex/commonmark-routes.svg?style=flat-square)](https://packagist.org/packages/mozex/commonmark-routes)
 
-An extension for [league/commonmark](https://github.com/thephpleague/commonmark) that allows you to use Laravel routes
-inside markdown, just as you would in your PHP code.
+A [league/commonmark](https://github.com/thephpleague/commonmark) extension that lets you use `route()`, `url()`, and `asset()` inside your Markdown content. Write links and images using the same Laravel helpers you already use in Blade, and they'll resolve to real URLs when the Markdown is converted.
 
-> **Warning:** This extension is intended for use in controlled environments where the markdown is trusted. Do not use
-this extension for processing user-input markdown due to potential security risks.
+> **Warning:** This extension evaluates helper calls from the Markdown source. Only use it with trusted content that you control. Don't process user-submitted Markdown with this extension.
 
 ## Table of Contents
 
 - [Support This Project](#support-this-project)
 - [Installation](#installation)
 - [Usage](#usage)
-  - [Basic Usage](#usage)
+  - [Links](#links)
+  - [Images](#images)
   - [Spatie Laravel Markdown](#spatie-laravel-markdown)
 - [Testing](#testing)
 - [Changelog](#changelog)
@@ -37,7 +36,7 @@ Business sponsors get logo placement in package READMEs. [**See sponsorship tier
 
 > **Requires [PHP 8.2+](https://php.net/releases/)**
 
-You can install the package via composer:
+Install the package via Composer:
 
 ```bash
 composer require mozex/commonmark-routes
@@ -45,50 +44,101 @@ composer require mozex/commonmark-routes
 
 ## Usage
 
-Register RoutesExtension as a CommonMark extension and use the route function instead of URLs in your markdown, just as
-you would in your PHP code.
+Register the extension with your CommonMark environment, then use `route()`, `url()`, or `asset()` in place of URLs in your Markdown.
 
 ```php
-use League\CommonMark\Environment\Environment;
 use League\CommonMark\CommonMarkConverter;
 use Mozex\CommonMarkRoutes\RoutesExtension;
 
-$converter = new CommonMarkConverter($environment);
+$converter = new CommonMarkConverter();
 $converter->getEnvironment()->addExtension(new RoutesExtension());
-
-echo $converter->convert("[Home](route('home'))");
-// Output: <p><a href="https://domain.com">Home</a></p>
-
-echo $converter->convert("[Home](<route('home')>)");
-// Output: <p><a href="https://domain.com">Home</a></p>
-
-echo $converter->convert("[route('home')](route('home'))");
-// Output: <p><a href="https://domain.com">https://domain.com</a></p>
-
-echo $converter->convert("[<route('home')>](<route('home')>)");
-// Output: <p><a href="https://domain.com">https://domain.com</a></p>
-
-echo $converter->convert("[Home](route('home', absolute: false))");
-// Output: <p><a href="/">Home</a></p>
-
-echo $converter->convert("[Product](route('product', 3))");
-// Output: <p><a href="https://domain.com/product/3">Product</a></p>
-
-echo $converter->convert("[Features](route('home', ['id' => 'features']))");
-// Output: <p><a href="https://domain.com?id=features">Features</a></p>
-
-echo $converter->convert("[Features](route('home', ['id' => 'features'], false))");
-// Output: <p><a href="/?id=features">Features</a></p>
-
-echo $converter->convert("[route('home', ['id' => 'features'], false)](route('home', ['id' => 'features'], false))");
-// Output: <p><a href="/?id=features">/?id=features</a></p>
 ```
 
-For more information on CommonMark extensions and environments, refer to the [CommonMark documentation](https://commonmark.thephpleague.com/2.4/basic-usage/).
+### Links
+
+The `route()` helper works exactly the way it does in your PHP code. Named routes, parameters, query strings, relative URLs:
+
+```php
+echo $converter->convert("[Home](route('home'))");
+// <p><a href="https://domain.com">Home</a></p>
+
+echo $converter->convert("[Product](route('product', 3))");
+// <p><a href="https://domain.com/product/3">Product</a></p>
+
+echo $converter->convert("[Features](route('home', ['id' => 'features']))");
+// <p><a href="https://domain.com?id=features">Features</a></p>
+
+echo $converter->convert("[Home](route('home', absolute: false))");
+// <p><a href="/">Home</a></p>
+```
+
+The `url()` helper generates URLs from plain paths:
+
+```php
+echo $converter->convert("[About](url('about'))");
+// <p><a href="https://domain.com/about">About</a></p>
+
+echo $converter->convert("[Docs](url('docs/getting-started'))");
+// <p><a href="https://domain.com/docs/getting-started">Docs</a></p>
+```
+
+The `asset()` helper resolves static file paths through Laravel's asset pipeline. This is especially useful on environments like [Laravel Vapor](https://vapor.laravel.com) where assets are served from S3 or CloudFront and relative paths won't work:
+
+```php
+echo $converter->convert("[Download PDF](asset('files/doc.pdf'))");
+// <p><a href="https://domain.com/files/doc.pdf">Download PDF</a></p>
+```
+
+When the helper is used as both the link text and the URL, the resolved URL appears in both places:
+
+```php
+echo $converter->convert("[route('home')](route('home'))");
+// <p><a href="https://domain.com">https://domain.com</a></p>
+```
+
+Angle brackets work too, which can help with complex arguments:
+
+```php
+echo $converter->convert("[Home](<route('home', absolute: false)>)");
+// <p><a href="/">Home</a></p>
+```
+
+You can freely mix helpers with regular Markdown links in the same document:
+
+```php
+echo $converter->convert("[Home](route('home')) | [Docs](url('docs')) | [Google](https://google.com)");
+// <p><a href="https://domain.com">Home</a> | <a href="https://domain.com/docs">Docs</a> | <a href="https://google.com">Google</a></p>
+```
+
+### Images
+
+Image syntax works the same way. Put a helper inside `![alt](...)` and it resolves just like links do:
+
+```php
+echo $converter->convert("![Logo](asset('images/logo.png'))");
+// <p><img src="https://domain.com/images/logo.png" alt="Logo" /></p>
+
+echo $converter->convert("![Banner](url('images/banner.jpg'))");
+// <p><img src="https://domain.com/images/banner.jpg" alt="Banner" /></p>
+
+echo $converter->convert("![Product](route('product', 3))");
+// <p><img src="https://domain.com/product/3" alt="Product" /></p>
+```
+
+The `asset()` helper is the most common choice for images. If you're on Vapor or any setup that serves assets from a CDN, `asset()` gives you the correct absolute URL instead of a broken relative path.
+
+Regular images without helpers pass through untouched:
+
+```php
+echo $converter->convert("![Photo](https://example.com/photo.jpg)");
+// <p><img src="https://example.com/photo.jpg" alt="Photo" /></p>
+```
+
+For more details on CommonMark extensions and environments, check the [CommonMark documentation](https://commonmark.thephpleague.com/2.4/basic-usage/).
 
 ### Spatie Laravel Markdown
 
-When using the [Laravel Markdown](https://github.com/spatie/laravel-markdown/) package, you may register the extension in `config/markdown.php`:
+If you're using the [Laravel Markdown](https://github.com/spatie/laravel-markdown/) package by Spatie, register the extension in `config/markdown.php`:
 
 ```php
 /*
