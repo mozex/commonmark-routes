@@ -11,7 +11,7 @@ use League\Config\ConfigurationInterface;
 
 class RoutesExtension implements ConfigurationAwareInterface, ExtensionInterface
 {
-    protected string $pattern = '/\[(.+)]\(<?route\((.+)\)>?\)/Us';
+    protected string $pattern = '/(!)?\[(.+)]\(<?(route|url|asset)\((.+)\)>?\)/Us';
 
     protected ConfigurationInterface $configuration;
 
@@ -35,7 +35,7 @@ class RoutesExtension implements ConfigurationAwareInterface, ExtensionInterface
                 str($event->getMarkdown()->getContent())
                     ->replaceMatches(
                         $this->pattern,
-                        $this->replaceRouteWithUrl(...)
+                        $this->replaceWithUrl(...)
                     )
             )
         );
@@ -44,24 +44,27 @@ class RoutesExtension implements ConfigurationAwareInterface, ExtensionInterface
     /**
      * @param  array<string>  $matches
      */
-    private function replaceRouteWithUrl(array $matches): string
+    private function replaceWithUrl(array $matches): string
     {
-        $linkText = $matches[1];
+        $prefix = $matches[1];
+        $linkText = $matches[2];
+        $function = $matches[3];
+        $arguments = $matches[4];
 
-        preg_match('/<?route\((.+)\)>?/Us', $linkText, $outputRouteMatch);
+        preg_match('/<?(route|url|asset)\((.+)\)>?/Us', $linkText, $textMatch);
 
-        if (isset($outputRouteMatch[1])) {
-            $linkText = $this->getUrl($outputRouteMatch[1]);
+        if (isset($textMatch[2])) {
+            $linkText = $this->resolve($textMatch[1], $textMatch[2]);
         }
 
-        $url = $this->getUrl($matches[2]);
+        $resolvedUrl = $this->resolve($function, $arguments);
 
-        return "[$linkText]($url)";
+        return "{$prefix}[{$linkText}]({$resolvedUrl})";
     }
 
-    public function getUrl(string $routeString): string
+    public function resolve(string $function, string $arguments): string
     {
         /** @phpstan-ignore return.type */
-        return eval("return route($routeString);");
+        return eval("return {$function}({$arguments});");
     }
 }
