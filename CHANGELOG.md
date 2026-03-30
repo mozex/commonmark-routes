@@ -2,6 +2,12 @@
 
 All notable changes to `commonmark-routes` will be documented in this file.
 
+## 1.6.1 - 2026-03-30
+
+* update composer.json
+
+**Full Changelog**: https://github.com/mozex/commonmark-routes/compare/1.6.0...1.6.1
+
 ## 1.6.0 - 2026-03-30
 
 ### What's Changed
