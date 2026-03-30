@@ -2,6 +2,15 @@
 
 All notable changes to `commonmark-routes` will be documented in this file.
 
+## 1.6.0 - 2026-03-30
+
+### What's Changed
+
+* Add `url()` and `asset()` helper support in links
+* Add image source resolution for `route()`, `url()`, and `asset()`
+
+**Full Changelog**: https://github.com/mozex/commonmark-routes/compare/1.5.0...1.6.0
+
 ## 1.5.0 - 2026-03-18
 
 * add laravel 13 support
