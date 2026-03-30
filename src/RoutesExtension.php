@@ -53,7 +53,7 @@ class RoutesExtension implements ConfigurationAwareInterface, ExtensionInterface
 
         preg_match('/<?(route|url|asset)\((.+)\)>?/Us', $linkText, $textMatch);
 
-        if (isset($textMatch[2])) {
+        if (isset($textMatch[1], $textMatch[2])) {
             $linkText = $this->resolve($textMatch[1], $textMatch[2]);
         }
 
