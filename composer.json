@@ -1,12 +1,15 @@
 {
     "name": "mozex/commonmark-routes",
-    "description": "Laravel routes in Markdown: A CommonMark extension to seamlessly use Laravel route functions within your Markdown content.",
+    "description": "A CommonMark extension that lets you use Laravel's route(), url(), and asset() helpers in Markdown links and images.",
     "keywords": [
         "laravel",
         "php",
         "commonmark",
         "markdown",
         "routes",
+        "url",
+        "asset",
+        "images",
         "static-pages",
         "markdown-pages",
         "documentation",
