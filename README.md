@@ -17,7 +17,6 @@ A [league/commonmark](https://github.com/thephpleague/commonmark) extension that
   - [Links](#links)
   - [Images](#images)
   - [Spatie Laravel Markdown](#spatie-laravel-markdown)
-- [Testing](#testing)
 - [Changelog](#changelog)
 - [Contributing](#contributing)
 - [Security Vulnerabilities](#security-vulnerabilities)
@@ -82,7 +81,7 @@ echo $converter->convert("[Docs](url('docs/getting-started'))");
 // <p><a href="https://domain.com/docs/getting-started">Docs</a></p>
 ```
 
-The `asset()` helper resolves static file paths through Laravel's asset pipeline. This is especially useful on environments like [Laravel Vapor](https://vapor.laravel.com) where assets are served from S3 or CloudFront and relative paths won't work:
+The `asset()` helper resolves static file paths through Laravel's asset pipeline. This is especially useful in environments like [Laravel Vapor](https://vapor.laravel.com) where assets are served from S3 or CloudFront and relative paths won't work:
 
 ```php
 echo $converter->convert("[Download PDF](asset('files/doc.pdf'))");
