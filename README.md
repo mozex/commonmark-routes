@@ -8,7 +8,7 @@
 
 A [league/commonmark](https://github.com/thephpleague/commonmark) extension that lets you use `route()`, `url()`, and `asset()` inside your Markdown content. Write links and images using the same Laravel helpers you already use in Blade, and they'll resolve to real URLs when the Markdown is converted.
 
-> **[Read the full documentation at mozex.dev](https://mozex.dev/docs/commonmark-routes/v1)** — searchable docs, version requirements, detailed changelog, and more.
+> **[Read the full documentation at mozex.dev](https://mozex.dev/docs/commonmark-routes/v1)**: searchable docs, version requirements, detailed changelog, and more.
 
 > **Warning:** This extension evaluates helper calls from the Markdown source. Only use it with trusted content that you control. Don't process user-submitted Markdown with this extension.
 
@@ -30,7 +30,7 @@ Business sponsors get logo placement in package READMEs. [**See sponsorship tier
 
 ## Installation
 
-> **Requires [PHP 8.2+](https://php.net/releases/)** — see [all version requirements](https://mozex.dev/docs/commonmark-routes/v1/requirements)
+> **Requires [PHP 8.2+](https://php.net/releases/) - see [all version requirements](https://mozex.dev/docs/commonmark-routes/v1/requirements)
 
 Install the package via Composer:
 
@@ -152,11 +152,11 @@ If you're using the [Laravel Markdown](https://github.com/spatie/laravel-markdow
 
 Visit the [documentation site](https://mozex.dev/docs/commonmark-routes/v1) for searchable docs, auto-updated from this repository.
 
-- **[Requirements](https://mozex.dev/docs/commonmark-routes/v1/requirements)** — PHP, Laravel, and dependency versions
-- **[Changelog](https://mozex.dev/docs/commonmark-routes/v1/changelog)** — Release history with linked pull requests and diffs
-- **[Contributing](https://mozex.dev/docs/commonmark-routes/v1/contributing)** — Development setup, code quality, and PR guidelines
-- **[Questions & Issues](https://mozex.dev/docs/commonmark-routes/v1/questions-and-issues)** — Bug reports, feature requests, and help
-- **[Security](mailto:hello@mozex.dev)** — Report vulnerabilities directly via email
+- **[Requirements](https://mozex.dev/docs/commonmark-routes/v1/requirements)**: PHP, Laravel, and dependency versions
+- **[Changelog](https://mozex.dev/docs/commonmark-routes/v1/changelog)**: Release history with linked pull requests and diffs
+- **[Contributing](https://mozex.dev/docs/commonmark-routes/v1/contributing)**: Development setup, code quality, and PR guidelines
+- **[Questions & Issues](https://mozex.dev/docs/commonmark-routes/v1/questions-and-issues)**: Bug reports, feature requests, and help
+- **[Security](mailto:hello@mozex.dev)**: Report vulnerabilities directly via email
 
 ## License
 
