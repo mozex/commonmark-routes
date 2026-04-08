@@ -2,30 +2,27 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/mozex/commonmark-routes.svg?style=flat-square)](https://packagist.org/packages/mozex/commonmark-routes)
 [![GitHub Tests Workflow Status](https://img.shields.io/github/actions/workflow/status/mozex/commonmark-routes/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/mozex/commonmark-routes/actions/workflows/tests.yml)
+[![Docs](https://img.shields.io/badge/docs-mozex.dev-10B981?style=flat-square)](https://mozex.dev/docs/commonmark-routes/v1)
 [![License](https://img.shields.io/github/license/mozex/commonmark-routes.svg?style=flat-square)](https://packagist.org/packages/mozex/commonmark-routes)
 [![Total Downloads](https://img.shields.io/packagist/dt/mozex/commonmark-routes.svg?style=flat-square)](https://packagist.org/packages/mozex/commonmark-routes)
 
 A [league/commonmark](https://github.com/thephpleague/commonmark) extension that lets you use `route()`, `url()`, and `asset()` inside your Markdown content. Write links and images using the same Laravel helpers you already use in Blade, and they'll resolve to real URLs when the Markdown is converted.
 
+> **[Read the full documentation at mozex.dev](https://mozex.dev/docs/commonmark-routes/v1)** — searchable docs, version requirements, detailed changelog, and more.
+
 > **Warning:** This extension evaluates helper calls from the Markdown source. Only use it with trusted content that you control. Don't process user-submitted Markdown with this extension.
 
 ## Table of Contents
 
-- [Support This Project](#support-this-project)
 - [Installation](#installation)
 - [Usage](#usage)
   - [Links](#links)
   - [Images](#images)
   - [Spatie Laravel Markdown](#spatie-laravel-markdown)
-- [Changelog](#changelog)
-- [Contributing](#contributing)
-- [Security Vulnerabilities](#security-vulnerabilities)
-- [Credits](#credits)
-- [License](#license)
 
 ## Support This Project
 
-I maintain this package along with [several other open-source PHP packages](https://github.com/mozex?tab=repositories&q=&type=source) used by thousands of developers every day.
+I maintain this package along with [several other open-source PHP packages](https://mozex.dev/docs) used by thousands of developers every day.
 
 If my packages save you time or help your business, consider [**sponsoring my work on GitHub Sponsors**](https://github.com/sponsors/mozex). Your support lets me keep these packages updated, respond to issues quickly, and ship new features.
 
@@ -33,7 +30,7 @@ Business sponsors get logo placement in package READMEs. [**See sponsorship tier
 
 ## Installation
 
-> **Requires [PHP 8.2+](https://php.net/releases/)**
+> **Requires [PHP 8.2+](https://php.net/releases/)** — see [all version requirements](https://mozex.dev/docs/commonmark-routes/v1/requirements)
 
 Install the package via Composer:
 
@@ -151,22 +148,15 @@ If you're using the [Laravel Markdown](https://github.com/spatie/laravel-markdow
 ],
 ```
 
-## Changelog
+## Resources
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+Visit the [documentation site](https://mozex.dev/docs/commonmark-routes/v1) for searchable docs, auto-updated from this repository.
 
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
-
-## Credits
-
-- [Mozex](https://github.com/mozex)
-- [All Contributors](../../contributors)
+- **[Requirements](https://mozex.dev/docs/commonmark-routes/v1/requirements)** — PHP, Laravel, and dependency versions
+- **[Changelog](https://mozex.dev/docs/commonmark-routes/v1/changelog)** — Release history with linked pull requests and diffs
+- **[Contributing](https://mozex.dev/docs/commonmark-routes/v1/contributing)** — Development setup, code quality, and PR guidelines
+- **[Questions & Issues](https://mozex.dev/docs/commonmark-routes/v1/questions-and-issues)** — Bug reports, feature requests, and help
+- **[Security](mailto:hello@mozex.dev)** — Report vulnerabilities directly via email
 
 ## License
 
