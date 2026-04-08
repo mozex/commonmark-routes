@@ -30,7 +30,7 @@ Business sponsors get logo placement in package READMEs. [**See sponsorship tier
 
 ## Installation
 
-> **Requires [PHP 8.2+](https://php.net/releases/) - see [all version requirements](https://mozex.dev/docs/commonmark-routes/v1/requirements)
+> **Requires [PHP 8.2+](https://php.net/releases/)** - see [all version requirements](https://mozex.dev/docs/commonmark-routes/v1/requirements)
 
 Install the package via Composer:
 
