@@ -152,6 +152,7 @@ If you're using the [Laravel Markdown](https://github.com/spatie/laravel-markdow
 
 Visit the [documentation site](https://mozex.dev/docs/commonmark-routes/v1) for searchable docs, auto-updated from this repository.
 
+- **[AI Integration](https://mozex.dev/docs/commonmark-routes/v1/ai-integration)**: Use this package with AI coding assistants via Context7 and Laravel Boost
 - **[Requirements](https://mozex.dev/docs/commonmark-routes/v1/requirements)**: PHP, Laravel, and dependency versions
 - **[Changelog](https://mozex.dev/docs/commonmark-routes/v1/changelog)**: Release history with linked pull requests and diffs
 - **[Contributing](https://mozex.dev/docs/commonmark-routes/v1/contributing)**: Development setup, code quality, and PR guidelines
