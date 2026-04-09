@@ -2,6 +2,16 @@
 
 All notable changes to `commonmark-routes` will be documented in this file.
 
+## 1.7.0 - 2026-04-09
+
+### What's Changed
+
+* Add Laravel Boost skill for AI coding assistant integration
+* Update README to the new documentation structure with docs badge, documentation callout, and consolidated Resources section
+* Update Context7 config with schema, project title, and description
+
+**Full Changelog**: https://github.com/mozex/commonmark-routes/compare/1.6.1...1.7.0
+
 ## 1.6.1 - 2026-03-30
 
 * update composer.json
