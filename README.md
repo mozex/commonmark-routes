@@ -1,7 +1,7 @@
 # Use Laravel URL Helpers inside Markdown
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/mozex/commonmark-routes.svg?style=flat-square)](https://packagist.org/packages/mozex/commonmark-routes)
-[![GitHub Tests Workflow Status](https://img.shields.io/github/actions/workflow/status/mozex/commonmark-routes/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/mozex/commonmark-routes/actions/workflows/tests.yml)
+[![GitHub Checks Workflow Status](https://img.shields.io/github/actions/workflow/status/mozex/commonmark-routes/checks.yml?branch=main&label=checks&style=flat-square)](https://github.com/mozex/commonmark-routes/actions/workflows/checks.yml)
 [![Docs](https://img.shields.io/badge/docs-mozex.dev-10B981?style=flat-square)](https://mozex.dev/docs/commonmark-routes/v1)
 [![License](https://img.shields.io/github/license/mozex/commonmark-routes.svg?style=flat-square)](https://packagist.org/packages/mozex/commonmark-routes)
 [![Total Downloads](https://img.shields.io/packagist/dt/mozex/commonmark-routes.svg?style=flat-square)](https://packagist.org/packages/mozex/commonmark-routes)
