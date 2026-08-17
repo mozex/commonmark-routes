@@ -13,11 +13,21 @@ Use this when you're working with Markdown content that needs dynamic Laravel UR
 
 CommonMark Routes is a [league/commonmark](https://commonmark.thephpleague.com/) extension that resolves Laravel's `route()`, `url()`, and `asset()` helpers inside Markdown before CommonMark parses it. You write `[Home](route('home'))` in your Markdown, and it becomes `[Home](https://domain.com)` before the parser ever sees it.
 
-It intercepts the raw Markdown via CommonMark's `DocumentPreParsedEvent`, runs a regex to find helper calls, evaluates them with PHP, and replaces them with real URLs. The parsed Markdown then flows through CommonMark normally.
+It intercepts the raw Markdown via CommonMark's `DocumentPreParsedEvent`, runs a regex to find helper calls, parses their arguments, calls the helper, and replaces the call with the real URL. The rewritten Markdown then flows through CommonMark normally.
 
-## Security constraint
+Pre-parsing is deliberate. CommonMark rejects link destinations containing spaces, so `[Home](route('home', ['id' => 'x']))` would never parse as a link. Rewriting before the parser runs is what makes multi-argument helpers possible.
 
-The extension evaluates helper calls from Markdown source using PHP's evaluation capabilities. Only use it with trusted, controlled content. Never process user-submitted Markdown with this extension. This isn't a theoretical risk; arbitrary PHP runs with no sanitization.
+## Argument handling
+
+Arguments are parsed, not executed. The parser accepts literal values only:
+
+- Strings, single or double quoted. Double quotes don't interpolate.
+- Integers and floats.
+- `true`, `false`, `null`.
+- Arrays, including nested and keyed ones.
+- Named arguments (`absolute: false`).
+
+Anything else throws `Mozex\CommonMarkRoutes\Exceptions\InvalidHelperArgumentsException`. That includes variables, function calls, concatenation, and constants. Version 1.x used `eval()` here and accepted arbitrary PHP; version 2 doesn't. When a user reports that an expression stopped working after upgrading, this is why. The fix is to compute the value in PHP and pass finished Markdown to the converter.
 
 ## Registering the extension
 
@@ -82,17 +92,28 @@ When arguments contain characters that conflict with Markdown parsing (named arg
 
 This tells CommonMark to treat everything inside `< >` as a single URL, preventing parsing conflicts.
 
+### Link titles
+
+Titles are preserved on links and images, in all three CommonMark forms:
+
+```markdown
+[Home](route('home') "Go home")
+[Home](route('home') 'Go home')
+![Logo](asset('logo.png') (Our logo))
+```
+
 ### Link text resolution
 
-When a helper appears as both the link text and the URL, both resolve:
+Helper calls in the link text resolve too, wherever they sit inside it:
 
 ```markdown
 [route('home')](route('home'))
+[Go to route('home') now](route('home'))
 ```
 
-Produces: `<a href="https://domain.com">https://domain.com</a>`
+Produce `<a href="https://domain.com">https://domain.com</a>` and `<a href="https://domain.com">Go to https://domain.com now</a>`.
 
-The extension checks the link text separately for helper calls and resolves them independently.
+Only the matched helper call is replaced; the rest of the link text is untouched. Empty link text works as well: `[](route('home'))`.
 
 ### Mixing helpers and regular links
 
@@ -106,21 +127,26 @@ Regular links pass through untouched. Only links matching the `route()`, `url()`
 
 ## How it works internally
 
-The core logic lives in `RoutesExtension.php`. Here's the mechanism:
+Two classes do the work:
+
+- `RoutesExtension.php` holds the extension, the match pattern, and the rewrite logic.
+- `ArgumentParser.php` turns an argument string into PHP values.
+
+The mechanism:
 
 1. The extension registers a listener for `DocumentPreParsedEvent`, which fires before CommonMark's parser touches the Markdown.
-2. The listener runs a regex against the raw Markdown: `/(!)?\[(.+)]\(<?(route|url|asset)\((.+)\)>?\)/Us`
-3. For each match, it calls the helper function to get the resolved URL.
-4. It also checks if the link text itself contains a helper call, and resolves that separately.
-5. The Markdown gets replaced with resolved URLs, then CommonMark parses it normally.
+2. The listener runs one `preg_replace_callback` over the raw Markdown.
+3. The pattern's first alternative matches code regions. When it wins, the callback returns the match untouched, which is how code blocks stay intact.
+4. The second alternative matches a link or image whose destination is a helper call. Named groups capture the `!` prefix, link text, helper name, arguments, angle brackets, and title.
+5. The callback resolves the destination, resolves any helper calls inside the link text with a second pass, and rebuilds the link with its title.
+6. CommonMark then parses the rewritten Markdown normally.
 
-The regex captures:
-- Group 1: `!` prefix (images vs links)
-- Group 2: Link text or alt text
-- Group 3: Helper function name (`route`, `url`, or `asset`)
-- Group 4: Arguments passed to the helper
+Details worth knowing when editing the pattern:
 
-The `U` flag makes quantifiers non-greedy. The `s` flag lets `.` match newlines.
+- Link text uses a recursive subpattern so balanced brackets are allowed (`route('home', ['id' => 'x'])` in the text position) while an unbalanced `]` stops the match. This is what keeps a link from swallowing the text before it.
+- The arguments group recurses on itself to balance parentheses, and matches quoted strings as units so parentheses inside a string don't end the match.
+- Angle brackets are captured as separate `open` and `close` groups. If only one is present, the match is returned unchanged.
+- If the regex fails (a backtrack limit, say), `preg_replace_callback` returns null and the original Markdown is used. Failure leaves content alone rather than corrupting it.
 
 ## Common patterns
 
@@ -148,8 +174,16 @@ When rendering Markdown stored in a database or flat files, the extension lets c
 
 On Vapor or any CDN-backed setup, relative asset paths break. Instead of `![Logo](/images/logo.png)`, use `![Logo](asset('images/logo.png'))` to get the correct CDN URL.
 
+## Code blocks
+
+Helpers inside fenced code blocks (backtick or tilde) and inline code spans are left alone. Writing documentation about this package no longer resolves the examples in it.
+
+Indented code blocks, the four-space kind, are not protected. Detecting them needs a full block parse, because four spaces of indentation is also how nested list content is written, and guessing wrong would silently break working links inside lists. Tell users to switch to fenced blocks.
+
 ## What doesn't work
 
-- Helpers in the link text position without also being in the URL position won't resolve. `[route('about')](/about)` stays as-is because the URL `/about` doesn't match the helper pattern.
+- Helpers in the link text position without also being in the URL position won't resolve. `[route('about')](/about)` stays as-is because the destination `/about` doesn't match the helper pattern.
 - Only `route()`, `url()`, and `asset()` are supported. Other Laravel helpers like `action()` or `to_route()` aren't recognized.
-- Nested or chained function calls beyond simple helper signatures aren't supported. Stick to the same arguments you'd pass in Blade.
+- Reference-style links don't work. `[Home][h]` with `[h]: route('home')` leaves the definition unresolved.
+- Helpers inside HTML blocks are still rewritten.
+- An undefined route name throws `RouteNotFoundException`, the same as calling `route()` anywhere else. Wrap the conversion if the Markdown isn't yours.
