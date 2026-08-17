@@ -4,5 +4,10 @@
     "public_key": "pk_2dXAZIEpHP6qQeGGTuyQt",
     "projectTitle": "CommonMark Routes",
     "description": "A CommonMark extension that lets you use Laravel's route(), url(), and asset() helpers in Markdown links and images.",
-    "folders": []
+    "folders": [],
+    "previousVersions": [
+        {
+            "branch": "1.x"
+        }
+    ]
 }
