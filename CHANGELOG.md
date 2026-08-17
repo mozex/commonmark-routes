@@ -2,6 +2,32 @@
 
 All notable changes to `commonmark-routes` will be documented in this file.
 
+## 2.0.0 - 2026-08-17
+
+### Breaking Changes
+
+* Helper arguments are parsed instead of evaluated. Only literal values are accepted: strings, numbers, booleans, null, arrays, and named arguments
+* Expressions such as `url('docs/' . $section)`, `url(config('app.docs_path'))`, and `asset(strtolower('Logo.png'))` now throw `Mozex\CommonMarkRoutes\Exceptions\InvalidHelperArgumentsException`
+* Helpers inside fenced code blocks and inline code are no longer resolved
+* Link text that mixes prose with a helper keeps the prose. `[Go to route('home') now](route('home'))` renders as `Go to https://domain.com now` instead of `https://domain.com`
+* `RoutesExtension` no longer implements `League\Config\ConfigurationAwareInterface`, and `setConfiguration()` is removed
+
+### What's Changed
+
+* Remove `eval()` from helper resolution, closing the arbitrary code execution path that any converted Markdown could reach
+* Add `ArgumentParser` for literal helper arguments, including nested arrays, named arguments, and escapes
+* Add `InvalidHelperArgumentsException`, which names the offending source in its message
+* Fix a regular link placed before a helper link being deleted when the helper link resolved its own text
+* Fix link and image titles being dropped, so `[Home](route('home') "Go home")` keeps its title
+* Fix empty link text, so `[](route('home'))` resolves
+* Fix unbalanced angle brackets producing a broken destination instead of being left alone
+* Skip fenced code blocks, tilde fences, and inline code spans, including code spans inside link text
+* Detect closing fences longer than their opening fence, which previously stopped every later helper from resolving
+* Detect fenced code blocks written with CRLF line endings
+* Stop treating unpaired backticks separated by a blank line as a code span
+
+**Full Changelog**: https://github.com/mozex/commonmark-routes/compare/1.7.0...2.0.0
+
 ## 1.7.0 - 2026-04-09
 
 ### What's Changed
