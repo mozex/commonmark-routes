@@ -1,7 +1,7 @@
 # Use Laravel URL Helpers inside Markdown
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/mozex/commonmark-routes.svg?style=flat-square)](https://packagist.org/packages/mozex/commonmark-routes)
-[![GitHub Checks Workflow Status](https://img.shields.io/github/actions/workflow/status/mozex/commonmark-routes/checks.yml?branch=main&label=checks&style=flat-square)](https://github.com/mozex/commonmark-routes/actions/workflows/checks.yml)
+[![Latest Version](https://img.shields.io/github/v/tag/mozex/commonmark-routes?filter=1.*&label=version&style=flat-square)](https://packagist.org/packages/mozex/commonmark-routes)
+[![GitHub Checks Workflow Status](https://img.shields.io/github/actions/workflow/status/mozex/commonmark-routes/checks.yml?branch=1.x&label=checks&style=flat-square)](https://github.com/mozex/commonmark-routes/actions/workflows/checks.yml?query=branch%3A1.x)
 [![Docs](https://img.shields.io/badge/docs-mozex.dev-10B981?style=flat-square)](https://mozex.dev/docs/commonmark-routes/v1)
 [![License](https://img.shields.io/github/license/mozex/commonmark-routes.svg?style=flat-square)](https://packagist.org/packages/mozex/commonmark-routes)
 [![Total Downloads](https://img.shields.io/packagist/dt/mozex/commonmark-routes.svg?style=flat-square)](https://packagist.org/packages/mozex/commonmark-routes)
