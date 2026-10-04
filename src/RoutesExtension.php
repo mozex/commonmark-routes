@@ -64,7 +64,38 @@ class RoutesExtension implements ConfigurationAwareInterface, ExtensionInterface
 
     public function resolve(string $function, string $arguments): string
     {
-        /** @phpstan-ignore return.type */
-        return eval("return {$function}({$arguments});");
+        /** @phpstan-ignore argument.type */
+        return $this->relative(eval("return {$function}({$arguments});"));
+    }
+
+    /**
+     * With the absolute option off, a URL on this app's own root loses its
+     * scheme and host. Anything on another host (a CDN behind ASSET_URL, say)
+     * stays absolute, since a relative path would point at the wrong server.
+     */
+    protected function relative(string $url): string
+    {
+        if ((bool) config('commonmark-routes.absolute', true)) {
+            return $url;
+        }
+
+        $root = rtrim(url('/'), '/');
+
+        if (! str_starts_with($url, $root)) {
+            return $url;
+        }
+
+        $rest = substr($url, strlen($root));
+
+        if ($rest === '') {
+            return '/';
+        }
+
+        // A longer host that merely starts with ours (example.com.evil).
+        if (! in_array($rest[0], ['/', '?', '#'], true)) {
+            return $url;
+        }
+
+        return $rest[0] === '/' ? $rest : '/'.$rest;
     }
 }
