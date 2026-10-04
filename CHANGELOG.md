@@ -2,6 +2,14 @@
 
 All notable changes to `commonmark-routes` will be documented in this file.
 
+## 1.7.1 - 2026-10-04
+
+### What's Changed
+
+* Improve package setup
+
+**Full Changelog**: https://github.com/mozex/commonmark-routes/compare/1.7.0...1.7.1
+
 ## 1.7.0 - 2026-04-09
 
 ### What's Changed
