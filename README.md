@@ -18,6 +18,7 @@ A [league/commonmark](https://github.com/thephpleague/commonmark) extension that
 - [Usage](#usage)
   - [Links](#links)
   - [Images](#images)
+  - [Relative URLs](#relative-urls)
   - [Spatie Laravel Markdown](#spatie-laravel-markdown)
 
 ## Support This Project
@@ -36,6 +37,12 @@ Install the package via Composer:
 
 ```bash
 composer require mozex/commonmark-routes
+```
+
+Then run the install command. It publishes `config/commonmark-routes.php`, where you can switch the generated links to [relative URLs](#relative-urls):
+
+```bash
+php artisan commonmark-routes:install
 ```
 
 ## Usage
@@ -131,6 +138,18 @@ echo $converter->convert("![Photo](https://example.com/photo.jpg)");
 ```
 
 For more details on CommonMark extensions and environments, check the [CommonMark documentation](https://commonmark.thephpleague.com/2.4/basic-usage/).
+
+### Relative URLs
+
+Every helper produces a full URL by default, like `http://example.com/about`. That's what you want for email or a feed, but HTML that gets cached and served on more than one host, or a page shown both on staging and production, is better off with paths. Turn `absolute` off in `config/commonmark-routes.php`:
+
+```php
+'absolute' => false,
+```
+
+Or set `COMMONMARK_ROUTES_ABSOLUTE=false` in your `.env`. Now `[About](route('about'))` renders as `<a href="/about">`, and `asset('images/logo.png')` becomes `/images/logo.png`. Query strings stay on the path.
+
+Only URLs on your app's own host change. An asset served from a CDN through `ASSET_URL`, or a `url()` pointing at another site, stays absolute, because a relative path would send it to the wrong server.
 
 ### Spatie Laravel Markdown
 
