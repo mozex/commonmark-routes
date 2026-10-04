@@ -53,6 +53,10 @@ Register it in `config/markdown.php`:
 
 No configuration or publishing needed. The extension is self-contained.
 
+### Relative URLs
+
+Helpers produce absolute URLs by default. `php artisan commonmark-routes:install` publishes `config/commonmark-routes.php`; setting `'absolute' => false` there (or `COMMONMARK_ROUTES_ABSOLUTE=false`) turns URLs on the app's own host into paths (`/about`, `/images/logo.png`, `/?q=term`). URLs on another host, such as a CDN `ASSET_URL`, stay absolute.
+
 ## Markdown syntax
 
 Three helpers are supported: `route()`, `url()`, and `asset()`. Each works identically to its Laravel counterpart.
