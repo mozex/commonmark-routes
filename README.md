@@ -1,3 +1,5 @@
+![CommonMark Routes](https://raw.githubusercontent.com/mozex/commonmark-routes/main/art/banner.png)
+
 # Use Laravel URL Helpers inside Markdown
 
 [![Latest Version](https://img.shields.io/github/v/tag/mozex/commonmark-routes?filter=1.*&label=version&style=flat-square)](https://packagist.org/packages/mozex/commonmark-routes)
