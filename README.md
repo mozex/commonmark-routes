@@ -1,4 +1,4 @@
-![CommonMark Routes](https://raw.githubusercontent.com/mozex/commonmark-routes/main/art/banner.png)
+[![CommonMark Routes](https://raw.githubusercontent.com/mozex/commonmark-routes/main/art/banner.png)](https://mozex.dev/docs/commonmark-routes/v1)
 
 # Use Laravel URL Helpers inside Markdown
 
